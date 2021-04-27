@@ -15,4 +15,14 @@ This repository is to add the feature to transfer Access Token to backend Server
 
 `Figure 2. Flow of an OpenID Connect`
 
+## how to use 
 
+`$ git clone <here>`
+
+`$ cd nginx-openid-connect/`
+
+`$ ./configure.sh <OpenID Connect Discovery URL>`
+
+`$ cp <created configuration files> <NGINX configuration folder>`
+
+And modify configuration files (mainly frontend.conf, openid_connect_configuration.conf) to fit your environment. 
