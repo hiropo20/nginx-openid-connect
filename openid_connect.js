@@ -81,7 +81,8 @@ function auth(r) {
                         // ID Token is valid, update keyval
                         r.log("OIDC refresh success, updating id_token for " + r.variables.cookie_auth_token);
                         r.variables.session_jwt = tokenset.id_token; // Update key-value store
-
+                        r.variables.session_access_jwt = tokenset.access_token; // Update key-value store for Access Token Lab
+                    
                         // Update refresh token (if we got a new one)
                         if (r.variables.refresh_token != tokenset.refresh_token) {
                             r.log("OIDC replacing previous refresh token (" + r.variables.refresh_token + ") with new value: " + tokenset.refresh_token);
@@ -165,6 +166,7 @@ function codeExchange(r) {
                         // Add opaque token to keyval session store
                         r.log("OIDC success, creating session " + r.variables.request_id);
                         r.variables.new_session = tokenset.id_token; // Create key-value store entry
+                        r.variables.new_access = tokenset.access_token; // Create key-value store entry for Access Token Lab
                         r.headersOut["Set-Cookie"] = "auth_token=" + r.variables.request_id + "; " + r.variables.oidc_cookie_flags;
                         r.return(302, r.variables.redirect_base + r.variables.cookie_auth_redir);
                    }
@@ -234,6 +236,7 @@ function validateIdToken(r) {
 function logout(r) {
     r.log("OIDC logout for " + r.variables.cookie_auth_token);
     r.variables.session_jwt = "-";
+    r.variables.session_access_jwt = "-"; // reset session_access_jwt for Access Token Lab
     r.variables.refresh_token = "-";
     r.return(302, r.variables.oidc_logout_redirect);
 }
